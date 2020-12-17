@@ -87,6 +87,9 @@ export default {
         v => !!v || 'O campo Registro acadêmico deve ser preenchido',
       ]
     }),
+    created:function(){
+      this.alunos=this.editado;
+    },
    methods:{
     cadastrar: function(){
       if(this.nomeField=="", this.cpfField=="",this.email=="",this.raField==""){

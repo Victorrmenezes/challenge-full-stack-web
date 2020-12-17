@@ -17,7 +17,7 @@
       ></v-text-field>
       
       <div class="bcad">
-        <v-btn router to='/cadastro'>
+        <v-btn router to="/cadastro" >
           Cadastrar novo aluno
         </v-btn>  
       </div>
@@ -39,6 +39,7 @@ export default {
   data () {
       return {
         pesquisado:'',
+        editado:{name: 'João Victor Rodrigues ',ra: "04055",email:"victor@hotmail.com",cpf: "0320360",},
         headers: [
           {
             text: 'Nome',
@@ -46,35 +47,38 @@ export default {
             value: 'name',
           },
           { text: 'Registro Acadêmico', value: 'ra' },
+          { text: 'Email', value: 'email' },
           { text: 'CPF', value: 'cpf' },
         ],
         alunos: [
           {
             name: 'João Victor Rodrigues Menezes',
             ra: "04105055",
+            email:"victorrmenezes@hotmail.com",
             cpf: "03205806360",
           },
           {
             name: 'Carolina Rodrigues Menezes',
             ra: "07102934",
+            email:"carolinarodrigues@hotmail.com",
             cpf: "0205304350",
           },
           {
             name: 'Milena Guimarães de Oliveira Cartaxo',
             ra: "08303950",
+            email:"milenaguimaraes@hotmail.com",
             cpf: "12348912391",
           },
         ],
       }
     },
 
+    created:function(){
+      this.alunos.push(this.editado);
+    },
 
     methods:{
-      initialize: function(){
-        this.alunos=[
-          
-        ]
-      }
+
     }
 
 }
