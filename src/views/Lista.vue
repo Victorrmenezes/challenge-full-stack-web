@@ -5,12 +5,16 @@
       </h3>
       <hr>
     <v-row class="titulo">  
-        <v-autocomplete
-          v-model="pesquisado"
-          :items="alunos"
-          label="Pesquisa"
-          clearable
-        ></v-autocomplete>
+        <v-text-field
+        color="black"
+        rounded
+        background-color="white"
+        v-model="pesquisado"
+        append-icon="mdi-magnify"
+        label="Pesquise aqui"
+        single-line
+        hide-details
+      ></v-text-field>
       
       <div class="bcad">
         <v-btn router to='/cadastro'>
@@ -21,9 +25,10 @@
     <v-data-table
     :headers="headers"
     :items="alunos"
-    :items-per-page="5"
+    :search="pesquisado"
     class="elevation-1"
-  ></v-data-table>
+  >
+  </v-data-table>
   </div>
 </template>
 
@@ -33,34 +38,45 @@ export default {
   name: 'Home',
   data () {
       return {
+        pesquisado:'',
         headers: [
           {
             text: 'Nome',
             align: 'start',
-            value: 'text',
+            value: 'name',
           },
           { text: 'Registro Acadêmico', value: 'ra' },
           { text: 'CPF', value: 'cpf' },
         ],
         alunos: [
           {
-            text: 'João Victor Rodrigues Menezes',
+            name: 'João Victor Rodrigues Menezes',
             ra: "04105055",
             cpf: "03205806360",
           },
           {
-            text: 'Carolina Rodrigues Menezes',
+            name: 'Carolina Rodrigues Menezes',
             ra: "07102934",
             cpf: "0205304350",
           },
           {
-            text: 'Milena Guimarães de Oliveira Cartaxo',
+            name: 'Milena Guimarães de Oliveira Cartaxo',
             ra: "08303950",
             cpf: "12348912391",
           },
         ],
       }
     },
+
+
+    methods:{
+      initialize: function(){
+        this.alunos=[
+          
+        ]
+      }
+    }
+
 }
 </script>
 

@@ -17,21 +17,22 @@
         />
         </div>
       </div>
-
-      <v-spacer></v-spacer>
     </v-app-bar>
 
     <v-main>
-      
-      <div class="leftcont">
-        <h3>Módulo Acadêmico</h3>
-        <hr>
-         <router-link to="/lista" >Alunos</router-link>
-      </div>
-      
-      <div class="rightcont">
-        <router-view/>
-      </div>
+      <v-row>
+
+        <div class="leftcont">
+          <h3>Módulo Acadêmico</h3>
+          <hr>
+          <router-link to="/lista" >Alunos</router-link>
+        </div>
+        
+        <div class="rightcont">
+          <router-view/>
+        </div>
+
+      </v-row>
     </v-main>
   </v-app>
 </template>
@@ -46,22 +47,23 @@ export default {
   },
 
   data: () => ({
-    //
+
   }),
 };
 </script>
 
 <style scoped>
   .leftcont{
-    float: left;
-    width: 30%;
+    width: 25%;
     height: 100%;
     background-color:lightgray;
     padding: 1%;
+    margin:2%;
     text-align: center;
+    border-radius: 2%;
+    
   }
   .rightcont{
-    float: right;
     width: 70%;
     padding: 1%;
     text-align: center;
