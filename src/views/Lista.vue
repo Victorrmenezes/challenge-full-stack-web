@@ -28,6 +28,34 @@
     :search="pesquisado"
     class="elevation-1"
   >
+    <template v-slot:top>
+      <v-dialog v-model="dialog" max-width="500px">
+            <v-card>
+              <v-card-title class="headline">Are you sure you want to delete this item?</v-card-title>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="cancelar">Cancelar</v-btn>
+                <v-btn color="blue darken-1" text @click="confirmar">Confirmar</v-btn>
+                <v-spacer></v-spacer>
+              </v-card-actions>
+            </v-card>
+        </v-dialog>
+    </template>
+   <template v-slot:[`item.actions`]="{ item }">
+      <v-icon
+        small
+        class="mr-2"
+        @click="editar(item)"
+      >
+        mdi-pencil
+      </v-icon>
+      <v-icon
+        small
+        @click="deletar(item)"
+      >
+        mdi-delete
+      </v-icon>
+    </template>
   </v-data-table>
   </div>
 </template>
@@ -39,6 +67,7 @@ export default {
   data () {
       return {
         pesquisado:'',
+        dialog:false,
         editado:{name: 'João Victor Rodrigues ',ra: "04055",email:"victor@hotmail.com",cpf: "0320360",},
         headers: [
           {
@@ -49,6 +78,7 @@ export default {
           { text: 'Registro Acadêmico', value: 'ra' },
           { text: 'Email', value: 'email' },
           { text: 'CPF', value: 'cpf' },
+          { text: 'Modificações', value: 'actions' },
         ],
         alunos: [
           {
@@ -73,12 +103,28 @@ export default {
       }
     },
 
+    
+
     created:function(){
       this.alunos.push(this.editado);
     },
 
     methods:{
-
+        editar:function(item){
+          console.log(item.cpf)
+        },
+        deletar:function(){
+          this.dialog=true
+          console.log(this.dialog)
+        },
+        cancelar:function(){
+          this.dialog=false
+          console.log(this.dialog)
+        },
+        confirmar:function(){
+          this.dialog=false
+          console.log(this.dialog)
+        }
     }
 
 }

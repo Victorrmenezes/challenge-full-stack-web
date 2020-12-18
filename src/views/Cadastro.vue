@@ -63,9 +63,6 @@ export default {
 
   data: () => ({
       valid: false,
-      
-      //
-
 
       //Campos de registro e suas regras
       nomeField: '',
@@ -87,15 +84,12 @@ export default {
         v => !!v || 'O campo Registro acadêmico deve ser preenchido',
       ]
     }),
-    created:function(){
-      this.alunos=this.editado;
-    },
+    
    methods:{
     cadastrar: function(){
       if(this.nomeField=="", this.cpfField=="",this.email=="",this.raField==""){
         console.log("Campos não preenchidos")
       }else{
-        console.log(this.nomeField);
         this.nomeField="";
         this.cpfField="";
         this.raField="";
