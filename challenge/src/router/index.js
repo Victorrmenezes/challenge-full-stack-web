@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Cadastro from '../views/Cadastro.vue'
 import Lista from '../views/Lista.vue'
+import Edicao from '../views/Edicao.vue'
 
 Vue.use(VueRouter)
 
@@ -13,7 +14,7 @@ const routes = [
     component: Home
   },
   {
-    path: '/cadastro/:aluno?',
+    path: '/cadastro',
     name: 'Cadastro',
     component: Cadastro
   },
@@ -21,6 +22,11 @@ const routes = [
     path: '/lista',
     name: 'Lista',
     component: Lista
+  },
+  {
+    path: '/edicao/:ra',
+    name: 'Edição',
+    component: Edicao
   }
 ]
 
