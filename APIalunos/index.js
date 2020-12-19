@@ -35,43 +35,73 @@ var database ={
         res.statusCode=200;
         res.json(database.alunos);
     })
-
+    
     app.get('/cadastro/:ra',(req,res)=>{
+        if(isNaN(req.params.ra)){
+            res.sendStatus(400);
+        }else{
+            var ra = parseInt(req.params.ra);
+            
+            var aluno = database.alunos.find(v => v.ra== ra);
+
+            res.json(aluno);
+
+            res.sendStatus(200);
+            
+        }
+    })
+
+    app.post('/cadastro',(req,res)=>{
+        var novo = req.body;
         
-    if(isNaN(req.params.ra)){
-        res.send("Isso não é um o");
-    }else{
-        res.send("Isso é um numero");
-    }
-    
-})
+        database.alunos.push(novo);
+        
+        res.statusCode(200);
+    })
 
-app.post('/cadastro',(req,res)=>{
-    var novo = req.body;
-    
-    database.alunos.push(novo);
-    
-    res.statusCode(200);
-})
+    app.delete('/cadastro/:ra',(req,res)=>{
+        if(isNaN(req.params.ra)){
+            res.statusCode(400);
+        }else{
+            var ra = parseInt(req.params.ra);
+            var index = database.alunos.findIndex(v => v.ra== ra);
 
-app.delete('/cadastro/:ra',(req,res)=>{
-    
-if(isNaN(req.params.ra)){
-    res.statusCode(400);
-}else{
-    var ra = parseInt(req.params.ra);
-    var index = database.alunos.findIndex(v => v.ra== ra);
+            if(index == -1){
+                res.sendStatus(404);
+            }else{
+                database.alunos.splice(index,1);
+                res.sendStatus(200);
+            }
+        }
+    })
+    app.put('/cadastro/:ra',(req,res)=>{
+        if(isNaN(req.params.ra)){
+            res.statusCode(400);
+        }else{
+            var ra = parseInt(req.params.ra);
+            
+            var aluno = database.alunos.find(v => v.ra== ra);
+            
+            
+            if(aluno != undefined){
+                
+                editado= req.body;
 
-    if(index == -1){
-        res.sendStatus(404);
-    }else{
-        database.alunos.splice(index,1);
-        res.sendStatus(200);
-    }
-}
+                if(editado.name != undefined){
+                    aluno.name=editado.name;
+                }
+                
+                if(editado.email != undefined){
+                    aluno.email=editado.email;
+                }
 
 
-})
+                res.sendStatus(200);
+            }else{
+                res.sendStatus(404);
+            }
+        }
+    })
 
 
 
