@@ -12,8 +12,7 @@
           src="./assets/logo.png"
           transition="scale-transition"
           width="100"
-          router
-          to='/home'
+          @click="inicio"
         />
         </div>
       </div>
@@ -39,16 +38,21 @@
 
 <script>
 
+import router from './router/index'
 
 export default {
   name: 'App',
-
-  components: {
-  },
+  
 
   data: () => ({
 
   }),
+
+  methods:{
+    inicio:function(){
+      router.push('/')
+    }
+  }
 };
 </script>
 

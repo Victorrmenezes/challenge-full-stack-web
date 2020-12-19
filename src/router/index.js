@@ -13,7 +13,7 @@ const routes = [
     component: Home
   },
   {
-    path: '/cadastro',
+    path: '/cadastro/:aluno?',
     name: 'Cadastro',
     component: Cadastro
   },

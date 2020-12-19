@@ -6,6 +6,16 @@
 <hr>
   <v-form v-model="valid">
       <v-container>
+          <v-dialog v-model="dialog" max-width="500px">
+                <v-card>
+                  <v-card-title class="headline">Aluno Cadastrado com sucesso</v-card-title>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="blue darken-1" text @click="cancelarDialog">Ok</v-btn>
+                    <v-spacer></v-spacer>
+                  </v-card-actions>
+                </v-card>
+            </v-dialog>
         <v-row>
           <v-col
             cols="12"
@@ -47,7 +57,7 @@
              </v-btn>
              
              <v-btn class="button" @click="cadastrar">
-               Cadastrar
+               Cadastro
              </v-btn>
            </v-row>
 
@@ -63,7 +73,7 @@ export default {
 
   data: () => ({
       valid: false,
-
+      dialog:false,
       //Campos de registro e suas regras
       nomeField: '',
       cpfField: '',
@@ -85,11 +95,14 @@ export default {
       ]
     }),
     
-   methods:{
+
+    methods:{
     cadastrar: function(){
       if(this.nomeField=="", this.cpfField=="",this.email=="",this.raField==""){
         console.log("Campos não preenchidos")
       }else{
+        // AQUI VAI A FUNÇÃO PARA SALVAR OS DADOS NA BASE DE DADOS
+        this.dialog=true;
         this.nomeField="";
         this.cpfField="";
         this.raField="";
@@ -100,6 +113,9 @@ export default {
       this.nomeField="";
       this.cpfField="";
       this.raField="";
+    },
+    cancelarDialog: function(){
+      this.dialog=false;
     }
   }
 
@@ -112,7 +128,6 @@ export default {
 
 /*Estilos tipo ID */
 #titulo{
-  /*padding: 8px;*/
   text-align: center;
   width: 100%;
 }

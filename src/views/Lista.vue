@@ -31,7 +31,7 @@
     <template v-slot:top>
       <v-dialog v-model="dialog" max-width="500px">
             <v-card>
-              <v-card-title class="headline">Are you sure you want to delete this item?</v-card-title>
+              <v-card-title class="headline">Realmente deseja deletar este item?</v-card-title>
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="blue darken-1" text @click="cancelar">Cancelar</v-btn>
@@ -61,6 +61,7 @@
 </template>
 
 <script>
+import router from '../router';
 
 export default {
   name: 'Home',
@@ -111,7 +112,7 @@ export default {
 
     methods:{
         editar:function(item){
-          console.log(item.cpf)
+          router.push('/cadastro/'+item.ra)
         },
         deletar:function(){
           this.dialog=true
@@ -119,11 +120,10 @@ export default {
         },
         cancelar:function(){
           this.dialog=false
-          console.log(this.dialog)
         },
         confirmar:function(){
-          this.dialog=false
-          console.log(this.dialog)
+          this.dialog=false;
+          // AQUI FICARÁ A FUNÇÃO DE APAGAR O ITEM DA BASE DE DADOS
         }
     }
 
