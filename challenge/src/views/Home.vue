@@ -1,5 +1,5 @@
 <template>
-  <div id="tabela">
+  <div id="table">
     <img src="../assets/logo.png" />
   </div>
 </template>
@@ -8,17 +8,12 @@
 
 export default {
   name: 'Home',
-  data () {
-      return {
-      }
-    },
-  components: {
   }
-}
 </script>
 
+
 <style scoped>
-#tabela{
+#table{
   padding: 1%;
   background-color:lightgray;
   border-radius: 2%;

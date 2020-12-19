@@ -1,6 +1,6 @@
 <template>
 <div class="cadastro">
-<div id="titulo">
+<div id="title">
   <h3>Tela de Cadastro</h3>
 </div>
 <hr>
@@ -11,7 +11,7 @@
                   <v-card-title class="headline">Aluno Cadastrado com sucesso</v-card-title>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="cancelarDialog">Ok</v-btn>
+                    <v-btn color="blue darken-1" text @click="cancelDialog">Ok</v-btn>
                     <v-spacer></v-spacer>
                   </v-card-actions>
                 </v-card>
@@ -22,8 +22,8 @@
             md="4"
           >
             <v-text-field
-              v-model="nomeField"
-              :rules="nomeRules"
+              v-model="nameField"
+              :rules="nameRules"
               label="Nome completo"
               required
             ></v-text-field> 
@@ -56,7 +56,7 @@
                Cancelar
              </v-btn>
              
-             <v-btn class="button" @click="cadastrar">
+             <v-btn class="button" @click="save">
                Cadastrar
              </v-btn>
            </v-row>
@@ -74,23 +74,22 @@ import axios from 'axios';
 export default {
 
   data: () => ({
-      //Booleanas
+      //Booleans
       valid: false,
       dialog:false,
 
-      //Campos de registro
-      nomeField: '',
+      //Register Fields
+      nameField: '',
       cpfField: '',
       emailField: '',
       raField:'',
       
-      //Regras
-      nomeRules: [
+      //Rules
+      nameRules: [
         v => !!v || 'O campo nome deve ser preenchido',
       ],
       cpfRules: [
         v => !!v || 'O campo CPF deve ser preenchido',
-        v => v.lenght != 11 || 'CPF invalido'
       ],
       emailRules: [
         v => !!v || 'E-mail is required',
@@ -103,24 +102,24 @@ export default {
     
 
     methods:{
-    cadastrar: function(){
-      if(this.nomeField=="", this.cpfField=="",this.email=="",this.raField==""){
+    save: function(){
+      if(this.nameField=="", this.cpfField=="",this.email=="",this.raField==""){
         console.log("Campos não preenchidos")
       }else{
         axios.post('http://localhost:45678/cadastro',{
-          name: this.nomeField,
+          name: this.nameField,
           ra: this.raField,
           email: this.emailField,
           cpf: this.cpfField,
           });
         this.dialog=true;
-        this.nomeField="";
+        this.nameField="";
         this.cpfField="";
         this.raField="";
         this.emailField="";
       }
     },
-    cancelarDialog: function(){
+    cancelDialog: function(){
       this.dialog=false;
     }
   }
@@ -133,7 +132,7 @@ export default {
 <style scoped>
 
 /*Estilos tipo ID */
-#titulo{
+#title{
   text-align: center;
   width: 100%;
 }

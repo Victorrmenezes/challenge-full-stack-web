@@ -1,6 +1,6 @@
 <template>
 <div class="cadastro">
-<div id="titulo">
+<div id="title">
   <h3>Tela de Cadastro</h3>
 </div>
 <hr>
@@ -11,7 +11,7 @@
                   <v-card-title class="headline">Dados editados com sucesso</v-card-title>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="cancelarDialog">Ok</v-btn>
+                    <v-btn color="blue darken-1" text @click="cancelDialog">Ok</v-btn>
                     <v-spacer></v-spacer>
                   </v-card-actions>
                 </v-card>
@@ -22,8 +22,8 @@
             md="4"
           >
             <v-text-field
-              v-model="nomeField"
-              :rules="nomeRules"
+              v-model="nameField"
+              :rules="nameRules"
               label="Nome completo"
               required
             ></v-text-field>
@@ -47,7 +47,7 @@
                Cancelar
              </v-btn>
              
-             <v-btn class="button" @click="editar">
+             <v-btn class="button" @click="edit">
                Editar
              </v-btn>
            </v-row>
@@ -70,13 +70,13 @@ export default {
       dialog:false,
 
       //Variaveis de auxilio
-      nomeField: '',
+      nameField: '',
       emailField: '',
       cpf:'Aqui vai o dado',
       ra:'aqui vai o dado',
       
       //Regras
-      nomeRules: [
+      nameRules: [
         v => !!v || 'O campo nome deve ser preenchido',
       ],
       emailRules: [
@@ -89,13 +89,13 @@ export default {
       var id = this.$route.params.ra;
       
       axios.get('http://localhost:45678/cadastro').then(res=>{
-            var lista = res.data;
-            lista.forEach(aluno => {
-              if(aluno.ra==id){
-                this.cpf=aluno.cpf;
-                this.ra=aluno.ra;
-                this.nomeField=aluno.name;
-                this.emailField=aluno.email;
+            var list = res.data;
+            list.forEach(item => {
+              if(item.ra==id){
+                this.cpf=item.cpf;
+                this.ra=item.ra;
+                this.nameField=item.name;
+                this.emailField=item.email;
               }
             });
           }).catch(err=>{
@@ -104,12 +104,12 @@ export default {
     },
 
     methods:{
-    editar: function(){
-      if(this.nomeField=="", this.cpfField=="",this.email=="",this.raField==""){
+    edit: function(){
+      if(this.nameField=="", this.cpfField=="",this.email=="",this.raField==""){
         console.log("Campos não preenchidos")
       }else{
         axios.put('http://localhost:45678/cadastro/'+this.ra,{
-          name: this.nomeField,
+          name: this.nameField,
           ra: this.raField,
           email: this.emailField,
           cpf: this.cpfField,
@@ -117,7 +117,7 @@ export default {
         this.dialog=true;
       }
     },
-    cancelarDialog: function(){
+    cancelDialog: function(){
       this.dialog=false;
     }
   }
@@ -130,7 +130,7 @@ export default {
 <style scoped>
 
 /*Estilos tipo ID */
-#titulo{
+#title{
   text-align: center;
   width: 100%;
 }

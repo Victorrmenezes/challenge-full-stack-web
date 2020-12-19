@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
 var database ={
-    alunos:[
+    items:[
         {
             name:"João Victor",
             ra:"04105055",
@@ -33,7 +33,7 @@ var database ={
 
     app.get('/cadastro',(req,res)=>{
         res.statusCode=200;
-        res.json(database.alunos);
+        res.json(database.items);
     })
     
     app.get('/cadastro/:ra',(req,res)=>{
@@ -42,7 +42,7 @@ var database ={
         }else{
             var ra = parseInt(req.params.ra);
             
-            var aluno = database.alunos.find(v => v.ra== ra);
+            var aluno = database.items.find(v => v.ra== ra);
 
             res.json(aluno);
 
@@ -54,7 +54,7 @@ var database ={
     app.post('/cadastro',(req,res)=>{
         var novo = req.body;
         
-        database.alunos.push(novo);
+        database.items.push(novo);
         
         res.statusCode(200);
     })
@@ -64,12 +64,12 @@ var database ={
             res.statusCode(400);
         }else{
             var ra = parseInt(req.params.ra);
-            var index = database.alunos.findIndex(v => v.ra== ra);
+            var index = database.items.findIndex(v => v.ra== ra);
 
             if(index == -1){
                 res.sendStatus(404);
             }else{
-                database.alunos.splice(index,1);
+                database.items.splice(index,1);
                 res.sendStatus(200);
             }
         }
@@ -80,7 +80,7 @@ var database ={
         }else{
             var ra = parseInt(req.params.ra);
             
-            var aluno = database.alunos.find(v => v.ra== ra);
+            var aluno = database.items.find(v => v.ra== ra);
             
             
             if(aluno != undefined){
@@ -111,5 +111,5 @@ var database ={
 
 
 app.listen(45678,()=>{
-    console.log("API RODANDO!");
+    console.log("API Running!");
 })

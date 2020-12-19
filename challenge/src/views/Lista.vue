@@ -1,10 +1,10 @@
 <template>
-  <div id="tabela">
+  <div id="table">
       <h3>
         Alunos cadastrados
       </h3>
       <hr>
-    <v-row class="titulo">  
+    <v-row class="title">  
         <v-text-field
         color="black"
         rounded
@@ -24,8 +24,8 @@
     </v-row>
     <v-data-table
     :headers="headers"
-    :items="alunos"
-    :search="pesquisado"
+    :items="items"
+    :search="search"
     class="elevation-1"
   >
     <template v-slot:top>
@@ -34,8 +34,8 @@
               <v-card-title class="headline">Realmente deseja deletar este item?</v-card-title>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="cancelar">Cancelar</v-btn>
-                <v-btn color="blue darken-1" text @click="confirmar">Confirmar</v-btn>
+                <v-btn color="blue darken-1" text @click="cancel">Cancelar</v-btn>
+                <v-btn color="blue darken-1" text @click="confirm">Confirmar</v-btn>
                 <v-spacer></v-spacer>
               </v-card-actions>
             </v-card>
@@ -45,13 +45,13 @@
       <v-icon
         small
         class="mr-2"
-        @click="editar(item)"
+        @click="edit(item)"
       >
         mdi-pencil
       </v-icon>
       <v-icon
         small
-        @click="deletar(item)"
+        @click="deleteItem(item)"
       >
         mdi-delete
       </v-icon>
@@ -67,12 +67,11 @@ import axios from 'axios';
 
 
 export default {
-  name: 'Home',
   data () {
       return {
         dialog:false,
 
-        pesquisado:'',
+        search:'',
         itemIndex:0,
         headers: [
           {
@@ -85,7 +84,7 @@ export default {
           { text: 'CPF', value: 'cpf' },
           { text: 'Modificações', value: 'actions',sortable:false },
         ],
-        alunos: [ ],
+        items: [ ],
       }
     },
 
@@ -93,9 +92,9 @@ export default {
 
     created:function(){
       axios.get('http://localhost:45678/cadastro').then(res=>{
-            var lista = res.data;
-            lista.forEach(aluno => {
-                this.alunos.push(aluno);
+            var list = res.data;
+            list.forEach(item => {
+                this.items.push(item);
             });
           }).catch(err=>{
             console.log(err);
@@ -103,23 +102,23 @@ export default {
     },
 
     methods:{
-        editar:function(item){
+        edit:function(item){
           router.push('/edicao/'+item.ra)
         },
-        deletar:function(item){
+        deleteItem:function(item){
           this.dialog=true;
           
           this.itemIndex= item.ra;
           console.log(this.itemIndex)
         },
-        cancelar:function(){
+        cancel:function(){
           this.dialog=false
         },
-        confirmar:function(){
+        confirm:function(){
           var id = this.itemIndex;
 
-          axios.delete('http://localhost:45678/cadastro/'+id).then(res=>{
-            console.log(res.data);
+          axios.delete('http://localhost:45678/cadastro/'+id).then(()=>{
+            this.items=this.items.filter(i => i.ra != id);
           }).catch(err=>{
             console.log(err);
           })
@@ -132,13 +131,13 @@ export default {
 </script>
 
 <style scoped>
-#tabela{
+#table{
   padding: 5px;
   padding-bottom: 10px;
   background-color:lightgray;
   border-radius: 2%;
 }
-.titulo{
+.title{
   align-items: center;
   justify-content: center;
   margin: 5px;
