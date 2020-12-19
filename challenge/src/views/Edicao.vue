@@ -8,7 +8,7 @@
       <v-container>
           <v-dialog v-model="dialog" max-width="500px">
                 <v-card>
-                  <v-card-title class="headline">Aluno Cadastrado com sucesso</v-card-title>
+                  <v-card-title class="headline">Dados editados com sucesso</v-card-title>
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" text @click="cancelarDialog">Ok</v-btn>
@@ -26,8 +26,8 @@
               :rules="nomeRules"
               label="Nome completo"
               required
-            ></v-text-field> 
-        
+            ></v-text-field>
+          
             <v-text-field
               v-model="emailField"
               :rules="emailRules"
@@ -35,19 +35,10 @@
               required
             ></v-text-field>
 
-            <v-text-field
-              v-model="cpfField"
-              :rules="cpfRules"
-              label="CPF (somente números)"
-              required
-            ></v-text-field>
+            <h3>CPF: {{cpf}} </h3>
           
-            <v-text-field
-              v-model="raField"
-              :rules="raRules"
-              label="Registro Acadêmico"
-              required
-            ></v-text-field>
+            <h3>Registro Acadêmico: {{ra}} </h3>
+            
 
           </v-col>
 
@@ -56,8 +47,8 @@
                Cancelar
              </v-btn>
              
-             <v-btn class="button" @click="cadastrar">
-               Cadastrar
+             <v-btn class="button" @click="editar">
+               Editar
              </v-btn>
            </v-row>
 
@@ -78,46 +69,52 @@ export default {
       valid: false,
       dialog:false,
 
-      //Campos de registro
+      //Variaveis de auxilio
       nomeField: '',
-      cpfField: '',
       emailField: '',
-      raField:'',
+      cpf:'Aqui vai o dado',
+      ra:'aqui vai o dado',
       
       //Regras
       nomeRules: [
         v => !!v || 'O campo nome deve ser preenchido',
       ],
-      cpfRules: [
-        v => !!v || 'O campo CPF deve ser preenchido',
-        v => v.lenght != 11 || 'CPF invalido'
-      ],
       emailRules: [
         v => !!v || 'E-mail is required',
         v => /.+@.+/.test(v) || 'E-mail must be valid',
-      ],
-      raRules:[
-        v => !!v || 'O campo Registro acadêmico deve ser preenchido',
       ]
     }),
     
+    created:function(){
+      var id = this.$route.params.ra;
+      
+      axios.get('http://localhost:45678/cadastro').then(res=>{
+            var lista = res.data;
+            lista.forEach(aluno => {
+              if(aluno.ra==id){
+                this.cpf=aluno.cpf;
+                this.ra=aluno.ra;
+                this.nomeField=aluno.name;
+                this.emailField=aluno.email;
+              }
+            });
+          }).catch(err=>{
+            console.log(err);
+          })
+    },
 
     methods:{
-    cadastrar: function(){
+    editar: function(){
       if(this.nomeField=="", this.cpfField=="",this.email=="",this.raField==""){
         console.log("Campos não preenchidos")
       }else{
-        axios.post('http://localhost:45678/cadastro',{
+        axios.put('http://localhost:45678/cadastro/'+this.ra,{
           name: this.nomeField,
           ra: this.raField,
           email: this.emailField,
           cpf: this.cpfField,
           });
         this.dialog=true;
-        this.nomeField="";
-        this.cpfField="";
-        this.raField="";
-        this.emailField="";
       }
     },
     cancelarDialog: function(){
@@ -151,6 +148,10 @@ export default {
   align-items: flex-end;
   justify-content: flex-end;
   margin-right: 5%;
+}
+/*Estilo tipo componentes*/
+h3{
+  padding: 5px;
 }
 
 </style>

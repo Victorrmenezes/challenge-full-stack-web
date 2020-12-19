@@ -70,8 +70,10 @@ export default {
   name: 'Home',
   data () {
       return {
-        pesquisado:'',
         dialog:false,
+
+        pesquisado:'',
+        itemIndex:0,
         headers: [
           {
             text: 'Nome',
@@ -102,20 +104,26 @@ export default {
 
     methods:{
         editar:function(item){
-          router.push('/cadastro/'+item.ra)
+          router.push('/edicao/'+item.ra)
         },
-        deletar:function(){
-          this.dialog=true
+        deletar:function(item){
+          this.dialog=true;
+          
+          this.itemIndex= item.ra;
+          console.log(this.itemIndex)
         },
         cancelar:function(){
           this.dialog=false
         },
         confirmar:function(){
-          axios.get('http://localhost:45678/cadastro').then(res=>{
-            console.log(res);
+          var id = this.itemIndex;
+
+          axios.delete('http://localhost:45678/cadastro/'+id).then(res=>{
+            console.log(res.data);
           }).catch(err=>{
             console.log(err);
           })
+          this.itemIndex=0;
           this.dialog=false;
         }
     }
