@@ -9,7 +9,7 @@
         color="black"
         rounded
         background-color="white"
-        v-model="pesquisado"
+        v-model="search"
         append-icon="mdi-magnify"
         label="Pesquise aqui"
         single-line
@@ -109,7 +109,6 @@ export default {
           this.dialog=true;
           
           this.itemIndex= item.ra;
-          console.log(this.itemIndex)
         },
         cancel:function(){
           this.dialog=false
