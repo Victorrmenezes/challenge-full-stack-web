@@ -1,7 +1,18 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const connection = require("./database/database");
+const List = require("./database/List");
 const cors = require('cors');
+
+connection
+    .authenticate()
+    .then(()=>{
+    console.log("Conexão Feita!")
+    })
+    .catch((err)=>{
+    console.log(err);
+});
 
 app.use(cors());
 
@@ -33,7 +44,9 @@ var database ={
 
     app.get('/cadastro',(req,res)=>{
         res.statusCode=200;
-        res.json(database.items);
+        List.findAll({raw:true}).then(items=>{
+            res.json(items);
+        })
     })
     
     app.get('/cadastro/:ra',(req,res)=>{
@@ -52,9 +65,14 @@ var database ={
     })
 
     app.post('/cadastro',(req,res)=>{
-        var novo = req.body;
-        
-        database.items.push(novo);
+        List.create({
+            name: req.body.name,
+            email: req.body.email,
+            ra:req.body.ra,
+            cpf:req.body.cpf
+        }).then(()=>{
+            console.log("Dados cadastrados no banco.")
+        })
         
         res.statusCode(200);
     })
@@ -64,42 +82,31 @@ var database ={
             res.statusCode(400);
         }else{
             var ra = parseInt(req.params.ra);
-            var index = database.items.findIndex(v => v.ra== ra);
 
-            if(index == -1){
-                res.sendStatus(404);
-            }else{
-                database.items.splice(index,1);
-                res.sendStatus(200);
-            }
+            List.destroy({
+                 where:{
+                     ra:ra
+                }
+            })
+            
+            res.sendStatus(200);
         }
     })
     app.put('/cadastro/:ra',(req,res)=>{
         if(isNaN(req.params.ra)){
             res.statusCode(400);
         }else{
-            var ra = parseInt(req.params.ra);
+            var ra = req.params.ra;
+            console.log(req.body);
             
-            var aluno = database.items.find(v => v.ra== ra);
-            
-            
-            if(aluno != undefined){
-                
-                editado= req.body;
-
-                if(editado.name != undefined){
-                    aluno.name=editado.name;
+            List.update({name:req.body.name,email:req.body.email},{
+                where:{
+                    ra:ra
                 }
-                
-                if(editado.email != undefined){
-                    aluno.email=editado.email;
-                }
-
-
-                res.sendStatus(200);
-            }else{
-                res.sendStatus(404);
             }
+            )
+            res.sendStatus(200);
+            
         }
     })
 
