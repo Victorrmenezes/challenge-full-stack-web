@@ -37,6 +37,7 @@
 </template>
 
 <script>
+// Main page of the application
 
 import router from './router/index'
 
@@ -44,9 +45,6 @@ export default {
   name: 'App',
   
 
-  data: () => ({
-
-  }),
 
   methods:{
     inicio:function(){
@@ -57,6 +55,7 @@ export default {
 </script>
 
 <style scoped>
+/*Styles type class */
   .leftcont{
     width: 25%;
     height: 100%;
@@ -73,6 +72,7 @@ export default {
     text-align: center;
   }
   
+/*Styles type component */
   hr{
     margin: 5px;
   }

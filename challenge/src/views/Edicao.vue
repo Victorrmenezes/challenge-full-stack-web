@@ -60,22 +60,23 @@
 </template>
 
 <script>
+//View that can update the editable data
 import axios from 'axios';
 
 export default {
 
   data: () => ({
-      //Booleanas
+      //Booleans
       valid: false,
       dialog:false,
 
-      //Variaveis de auxilio
+      //Variables
       nameField: '',
       emailField: '',
-      cpf:'Aqui vai o dado',
-      ra:'aqui vai o dado',
+      cpf:'',
+      ra:'',
       
-      //Regras
+      //Rules
       nameRules: [
         v => !!v || 'O campo nome deve ser preenchido',
       ],
@@ -85,6 +86,7 @@ export default {
       ]
     }),
     
+    //Calls the data from the specific item
     created:function(){
       var id = this.$route.params.ra;
       
@@ -104,6 +106,7 @@ export default {
     },
 
     methods:{
+    //Update the data of the item
     edit: function(){
       if(this.nameField=="", this.cpfField=="",this.email=="",this.raField==""){
         console.log("Campos não preenchidos")
@@ -117,6 +120,7 @@ export default {
         this.dialog=true;
       }
     },
+    //Goes to the List View without update data
     cancelDialog: function(){
       this.dialog=false;
     }
@@ -129,12 +133,12 @@ export default {
 
 <style scoped>
 
-/*Estilos tipo ID */
+/*Styles type ID */
 #title{
   text-align: center;
   width: 100%;
 }
-/*Estilos tipo class */
+/*Styles type class */
 .cadastro{
   text-align: start;
   background-color: lightgray;
@@ -149,7 +153,7 @@ export default {
   justify-content: flex-end;
   margin-right: 5%;
 }
-/*Estilo tipo componentes*/
+/*Style type components*/
 h3{
   padding: 5px;
 }

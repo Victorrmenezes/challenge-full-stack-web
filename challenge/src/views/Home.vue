@@ -5,7 +5,7 @@
 </template>
 
 <script>
-
+// Home View
 export default {
   name: 'Home',
   }
@@ -13,6 +13,7 @@ export default {
 
 
 <style scoped>
+/*Style type ID */
 #table{
   padding: 1%;
   background-color:lightgray;

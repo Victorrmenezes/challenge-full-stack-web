@@ -78,7 +78,7 @@ export default {
       valid: false,
       dialog:false,
 
-      //Register Fields
+      //Variables
       nameField: '',
       cpfField: '',
       emailField: '',
@@ -90,6 +90,7 @@ export default {
       ],
       cpfRules: [
         v => !!v || 'O campo CPF deve ser preenchido',
+        v => v.length == 11 || 'O CPF deve ser válido',
       ],
       emailRules: [
         v => !!v || 'E-mail is required',
@@ -102,26 +103,28 @@ export default {
     
 
     methods:{
-    save: function(){
-      if(this.nameField=="", this.cpfField=="",this.email=="",this.raField==""){
-        console.log("Campos não preenchidos")
-      }else{
-        axios.post('http://localhost:45678/cadastro',{
-          name: this.nameField,
-          ra: this.raField,
-          email: this.emailField,
-          cpf: this.cpfField,
-          });
-        this.dialog=true;
-        this.nameField="";
-        this.cpfField="";
-        this.raField="";
-        this.emailField="";
+      //Creates a new item on the database
+      save: function(){
+        if(this.nameField=="" || this.cpfField.length!=11 || this.email=="" ||this.raField==""){
+          console.log("Campos não preenchidos corretamente")
+        }else{
+          axios.post('http://localhost:45678/cadastro',{
+            name: this.nameField,
+            ra: this.raField,
+            email: this.emailField,
+            cpf: this.cpfField,
+            });
+          this.dialog=true;
+          this.nameField="";
+          this.cpfField="";
+          this.raField="";
+          this.emailField="";
+        }
+      },
+      //Closes the dialog of confirmation of saving
+      cancelDialog: function(){
+        this.dialog=false;
       }
-    },
-    cancelDialog: function(){
-      this.dialog=false;
-    }
   }
 
 
@@ -131,12 +134,12 @@ export default {
 
 <style scoped>
 
-/*Estilos tipo ID */
+/*Styles type ID */
 #title{
   text-align: center;
   width: 100%;
 }
-/*Estilos tipo class */
+/*Styles type class */
 .cadastro{
   text-align: start;
   background-color: lightgray;

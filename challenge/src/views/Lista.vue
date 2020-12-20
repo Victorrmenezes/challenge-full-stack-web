@@ -61,7 +61,7 @@
 </template>
 
 <script>
-
+// View that list the items of the database
 import router from '../router';
 import axios from 'axios';
 
@@ -89,7 +89,7 @@ export default {
     },
 
     
-
+    //Calls the data when page is created
     created:function(){
       axios.get('http://localhost:45678/cadastro').then(res=>{
             var list = res.data;
@@ -102,17 +102,21 @@ export default {
     },
 
     methods:{
+        //Goes to the View Edicao
         edit:function(item){
           router.push('/edicao/'+item.ra)
         },
+        //Opens the delete confirmation
         deleteItem:function(item){
           this.dialog=true;
           
           this.itemIndex= item.ra;
         },
+        //Closes the delete confirmation without delete data
         cancel:function(){
           this.dialog=false
         },
+        //Deletes data from the databases and from the list
         confirm:function(){
           var id = this.itemIndex;
 
@@ -130,12 +134,14 @@ export default {
 </script>
 
 <style scoped>
+/*Style type ID */
 #table{
   padding: 5px;
   padding-bottom: 10px;
   background-color:lightgray;
   border-radius: 2%;
 }
+/*Styles type class */
 .title{
   align-items: center;
   justify-content: center;

@@ -1,3 +1,4 @@
+//This archive creates and updates the list of students
 const Sequelize = require('sequelize');
 const connection = require('./database');
 

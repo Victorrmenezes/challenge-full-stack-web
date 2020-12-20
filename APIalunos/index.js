@@ -1,3 +1,4 @@
+// Index File of the API
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -5,6 +6,7 @@ const connection = require("./database/database");
 const List = require("./database/List");
 const cors = require('cors');
 
+// Establishing connection with database
 connection
     .authenticate()
     .then(()=>{
@@ -14,34 +16,15 @@ connection
     console.log(err);
 });
 
+// Using CORS as an intermediary between Vue and the API 
 app.use(cors());
 
+//Using Body Parser
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
-var database ={
-    items:[
-        {
-            name:"João Victor",
-            ra:"04105055",
-            email:"victorrmenezes@hotmail.com",
-            cpf:'03205806360',
-        },
-        {
-            name:"Milena",
-            ra:"08303950",
-            email:"mimiguimaraes@hotmail.com",
-            cpf:'0345265457',
-        },
-        {
-            name:"Carol",
-            ra:"07105348",
-            email:"Carol@hotmail.com",
-            cpf:'49823019459',
-        },
-    ]
-}
 
+//Routes of the API
     app.get('/cadastro',(req,res)=>{
         res.statusCode=200;
         List.findAll({raw:true}).then(items=>{
@@ -49,20 +32,6 @@ var database ={
         })
     })
     
-    app.get('/cadastro/:ra',(req,res)=>{
-        if(isNaN(req.params.ra)){
-            res.sendStatus(400);
-        }else{
-            var ra = parseInt(req.params.ra);
-            
-            var aluno = database.items.find(v => v.ra== ra);
-
-            res.json(aluno);
-
-            res.sendStatus(200);
-            
-        }
-    })
 
     app.post('/cadastro',(req,res)=>{
         List.create({
@@ -81,13 +50,9 @@ var database ={
         if(isNaN(req.params.ra)){
             res.statusCode(400);
         }else{
-            var ra = parseInt(req.params.ra);
+            var ra = parseInt(req.params.ra);   
 
-            List.destroy({
-                 where:{
-                     ra:ra
-                }
-            })
+            List.destroy({where:{ra:ra}})
             
             res.sendStatus(200);
         }
@@ -99,12 +64,8 @@ var database ={
             var ra = req.params.ra;
             console.log(req.body);
             
-            List.update({name:req.body.name,email:req.body.email},{
-                where:{
-                    ra:ra
-                }
-            }
-            )
+            List.update({ name:req.body.name , email:req.body.email },{where:{ra:ra}})
+
             res.sendStatus(200);
             
         }
@@ -116,7 +77,7 @@ var database ={
 
 
 
-
+//API Running on this gate
 app.listen(45678,()=>{
     console.log("API Running!");
 })
