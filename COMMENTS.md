@@ -16,6 +16,7 @@ Para que o programa funcione corretamente:
 
 
 Bibliotecas utilizadas:
+    
     API:
         Express
         Body Parser
@@ -30,6 +31,7 @@ Bibliotecas utilizadas:
         Axios
 
 Melhorias se tivesse mais tempo:
+   
     Conexão com API para consulta de CPF, com fins de fazer uma melhor validação
     Melhorias gráficas no front-end
     Melhorias na arquitetura da API
